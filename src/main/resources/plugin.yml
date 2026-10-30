@@ -1,0 +1,19 @@
+name: MapUpdater
+version: ${version}
+main: dev.etran.mapupdater.MapUpdaterPlugin
+# Oldest API level we compile against. Newer servers (1.14 -> 26.x) load it fine.
+api-version: "1.13"
+description: Lazily refreshes vanilla terrain maps so they stay up to date without lagging the server.
+folia-supported: false
+
+commands:
+  mapupdater:
+    description: Manage the MapUpdater plugin.
+    aliases: [mapupd, mupdate]
+    usage: /<command> <help|status|reload|refresh|info|track|untrack|config>
+    permission: mapupdater.admin
+
+permissions:
+  mapupdater.admin:
+    description: Allows use of /mapupdater.
+    default: op

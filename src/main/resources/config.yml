@@ -1,0 +1,72 @@
+# MapUpdater configuration
+#
+# Everything here can also be changed in-game:
+#   /mapupdater config                  list every key and its current value
+#   /mapupdater config <key>            show one key
+#   /mapupdater config <key> <value>    change it (saved to this file and applied immediately)
+#   /mapupdater reload                  re-read this file after editing it by hand
+
+# Master switch. When false nothing is refreshed (maps are still tracked).
+enabled: true
+
+# Minutes between refresh cycles. A cycle queues every tracked map once and works
+# through them lazily (see "performance"). The timer starts when a cycle FINISHES,
+# so a slow cycle never overlaps the next one.
+refresh-interval-minutes: 30
+
+# false = only re-draw pixels the map already contains (keeps the exploration
+#         mechanic intact: unexplored parts of a map stay blank).
+# true  = also fill in blank pixels wherever terrain has been generated.
+fill-unexplored: false
+
+# Maps that are locked (cartography table "lock") are left alone.
+skip-locked-maps: true
+
+# Maps whose renderers were replaced/extended by another plugin (image plugins,
+# custom map plugins, ...) are left alone so they do not break. Strongly recommended.
+skip-custom-renderer-maps: true
+
+# The Nether has a bedrock roof, so a top-down map of it is meaningless. Skip it.
+skip-ceiling-worlds: true
+
+# Worlds (by name) whose maps must never be refreshed.
+disabled-worlds: []
+
+performance:
+  # Hard time budget per server tick, in milliseconds. 50 ms = a whole tick,
+  # so keep this small. 1-3 is very gentle.
+  max-ms-per-tick: 2.0
+
+  # At most this many chunks are sampled per tick, regardless of the time budget.
+  max-chunks-per-tick: 3
+
+  # true  = chunks that are generated but not currently loaded are loaded from disk
+  #         (one at a time, within the budget) and released again right after.
+  #         Chunks that were never generated are NEVER generated, they are skipped.
+  # false = only sample chunks that happen to be loaded already (lighter, but far
+  #         away parts of a map will only update when someone goes near them).
+  load-generated-chunks: true
+
+  # Lag guard: if the server's average tick time rises above this many ms
+  # (50 = perfect 20 TPS), refreshing pauses until it recovers. 0 disables the guard.
+  pause-above-avg-tick-ms: 55.0
+
+  # Seconds to wait after server start before the first cycle.
+  start-delay-seconds: 60
+
+discovery:
+  # Look through online players' inventories (on join, and periodically).
+  scan-player-inventories: true
+  # Look at item frames as their chunks load.
+  scan-item-frames: true
+  # How often the online players' inventories are re-scanned, in seconds.
+  inventory-scan-interval-seconds: 60
+
+colors:
+  # true  = ask the server for each block's map color when it can (modern servers),
+  #         falling back to the built-in table otherwise.
+  # false = always use the built-in table.
+  use-server-map-colors: true
+
+# Log extra information to the console.
+debug: false
